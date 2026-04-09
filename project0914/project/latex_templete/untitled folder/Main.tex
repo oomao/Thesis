@@ -1,0 +1,59 @@
+\documentclass[oneside,noframe]{ncuthesisXe}
+\usepackage{makeidx}             % for index
+\usepackage{layout}              % to show page dimensions
+\usepackage[]{todonotes}         % Use [disable] to del. all
+\usepackage{cite}
+% 以下為中大碩博士論文封面輸入資料
+\begin{document}                 % 宣告結束，本文開始
+
+\school      {<< school >>} 	%學校
+\dept      {<< dept >>} 	%系所
+\degree    {<< degree >>}			%碩\\博士
+\title     {<< title >>}		%論文名稱
+\subtitle  {<< subtitle >>}		%論文名稱 英文
+%\\logo{NCUlogo}   %中央無校徽在封面，要除去校徽則用此行
+\author    {<< author >>}
+\mprof     {<< mprof >>}
+
+\sprofi    {<< sprofi >>} 		%沒有共同指導教授請註解
+\sprofii   {<< sprofii >>}		%或把參數省略成為\\sprofii{}	
+\degreedate  {<< degreedate >>}
+\copyyear  {<< copyyear >>}
+
+\input{mypreamble}               % 自訂巨集多 收起來，
+                                 % 自訂巨集少 直接寫出
+
+%\includeonly{introduction}          % 單獨編譯此檔
+%\makeindex                       % 告訴\LaTeX要做索引
+% 宣告結束，本文開始
+\addtocontents{toc}{~\hfill\textbf{頁次}}
+%----------------------
+\fontsize{14pt}{20pt}\selectfont% 可調間距以便閱讀 
+\maketitle                       % 論文封面							
+\setboolean{printcopyright}{true}									
+\maketitle                       % 書名面							
+\cleardoublepage 
+%\includepdf[pages=-,scale=0.9]{myfile.pdf} % 插入其他表格  		
+
+\frontmatter                     % 羅馬數字編頁
+\include{abstractcn}             % 中文摘要abstractcn環境 			
+\include{abstracten}             % 英文摘要abstracten				
+\include{acknowledge}            % 謝誌     acknowledge			
+\include{lists}                  % 目錄  toc, lof, and lot
+%\include{symbol}                 % 符號說明   symbols 環境			
+
+\cleardoublepage \index{\LaTeX! \textbackslash include}
+\mainmatter                      % 阿拉伯數字編頁         
+\include{introduction}			 % 第一章    (自行寫入)
+\include{relateWork}
+\include{approach}
+\include{result}
+\include{conclusion}
+\include{reference}
+~\nocite{*}						%show all you bib refernce paper，完成論文時請註解掉
+\include{bibli}
+
+
+%{\centering \layout}             % 整頁尺寸(可註解%不用)
+
+\end{document}                   % 52 lines in total

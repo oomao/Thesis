@@ -1,0 +1,5 @@
+1.下載缺的模組
+pip install + (缺少的模組，執行python app.py就知道缺甚麼)
+pip install mysql-connector-python transformers ckip-transformers keybert scikit-learn(這是資料庫的模組比較特別，使用時要開xampp)
+
+

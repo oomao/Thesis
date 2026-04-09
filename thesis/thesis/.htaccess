@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteBase /thesis/
+RewriteRule ^$ login1.php [L,R=302]

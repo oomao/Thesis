@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>論文推薦功能 - 論文輔助系統</title>
+    <style>
+        body {
+            font-size: 16px;
+            font-family: 'PingFang TC', 'Heiti TC', '微軟正黑體', sans-serif;
+            text-align: center;
+            background-color: white;
+        }
+        .nav-item { margin: 0 5px; }
+        .nav-link img { margin-bottom: 5px; }
+        #resultsTable { display: none; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <!-- 導覽列 -->
+    <nav class="navbar navbar-expand-sm bg-light navbar-light shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/study.png" alt="Logo" style="width:50px;" class="rounded">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="search.html">
+                            <img src="images/magnifier.png" style="width:20px;" class="rounded"><br>論文推薦功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="ai_detector.html">
+                            <img src="images/ai.png" style="width:20px;" class="rounded"><br>AI偵測功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="test.html">
+                            <img src="images/left.png" style="width:20px;" class="rounded"><br>論文排版輔助
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="upload.html">
+                            <img src="images/scores.png" style="width:20px;" class="rounded"><br>論文評分功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="chat.html">
+                            <img src="images/robot.png" style="width:20px;" class="rounded"><br>論文聊天機器人
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="community.html">
+                            <img src="images/group.png" style="width:20px;" class="rounded"><br>社群
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown">
+                            Demo User
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">好友</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">登出 (展示用)</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 內容區塊 -->
+    <div class="container mt-5">
+        <h2>論文推薦系統</h2>
+        <p>請輸入您的研究摘要或關鍵字，系統將推薦相關文獻。（展示版提供模擬結果）</p>
+        
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <textarea class="form-control mb-3" id="searchInput" rows="4" placeholder="在此輸入您的研究概念，例如：深度學習在自然語言處理的應用..."></textarea>
+                
+                <div class="mb-3">
+                    <label class="form-label">搜尋模式：</label>
+                    <select class="form-select w-50 mx-auto" id="searchMode">
+                        <option value="precise">精準模式 (使用 1 個核心關鍵字)</option>
+                        <option value="moderate" selected>適中模式 (使用 3 個關鍵字)</option>
+                        <option value="fuzzy">模糊模式 (使用 5 個關鍵字)</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary px-5" onclick="simulateSearch()" id="searchBtn">開始推薦</button>
+            </div>
+        </div>
+
+        <!-- 模擬結果區 -->
+        <div class="row justify-content-center mt-5" id="resultsTable">
+            <div class="col-md-10">
+                <div class="alert alert-success d-none" id="keywordDisplay">
+                    <strong>提取到的關鍵字：</strong> <span id="kwList"></span>
+                </div>
+                
+                <table class="table table-bordered table-striped text-start">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>論文名稱 (中文)</th>
+                            <th>論文名稱 (English)</th>
+                            <th>關鍵字</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultBody">
+                        <!-- 模擬資料將用 JS 插入 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模擬指令碼 -->
+    <script>
+        function simulateSearch() {
+            const input = document.getElementById('searchInput').value;
+            const btn = document.getElementById('searchBtn');
+            const table = document.getElementById('resultsTable');
+            const kwDisplay = document.getElementById('keywordDisplay');
+            const kwList = document.getElementById('kwList');
+            const resultBody = document.getElementById('resultBody');
+
+            if (!input.trim()) {
+                alert('請先輸入摘要或文字進行查詢。');
+                return;
+            }
+
+            // 模擬讀取動畫
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 處理中...';
+            btn.disabled = true;
+            table.style.display = 'none';
+
+            setTimeout(() => {
+                // 恢復按鈕
+                btn.innerHTML = '開始推薦';
+                btn.disabled = false;
+                
+                // 顯示提取到的關鍵字
+                kwList.innerText = '自然語言處理, 深度學習, 語言模型';
+                kwDisplay.classList.remove('d-none');
+                
+                // 產生靜態假資料
+                resultBody.innerHTML = `
+                    <tr>
+                        <td>基於深度學習的自然語言處理應用研究</td>
+                        <td>Application Research of NLP based on Deep Learning</td>
+                        <td>深度學習, NLP, 人工智慧</td>
+                        <td><a href="#" class="btn btn-sm btn-outline-primary">檢視</a></td>
+                    </tr>
+                    <tr>
+                        <td>自然語言處理技術在自動問答系統中的應用</td>
+                        <td>Application of NLP Technology in QA Systems</td>
+                        <td>自然語言處理, 問答系統</td>
+                        <td><a href="#" class="btn btn-sm btn-outline-primary">檢視</a></td>
+                    </tr>
+                    <tr>
+                        <td>大型語言模型的發展與挑戰</td>
+                        <td>Development and Challenges of Large Language Models</td>
+                        <td>語言模型, Transformer, LLM</td>
+                        <td><a href="#" class="btn btn-sm btn-outline-primary">檢視</a></td>
+                    </tr>
+                `;
+                
+                table.style.display = 'block';
+            }, 1500); // 模擬延遲 1.5 秒
+        }
+    </script>
+</body>
+</html>

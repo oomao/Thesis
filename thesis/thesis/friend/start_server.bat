@@ -1,0 +1,1 @@
+node C:\wamp64\www\friend\index.js

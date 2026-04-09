@@ -1,0 +1,11 @@
+~\hfill \textbf {頁次}
+\contentsline {chapter}{中文摘要}{i}{section*.1}%
+\contentsline {chapter}{英文摘要}{ii}{section*.2}%
+\contentsline {chapter}{致謝}{iii}{section*.3}%
+\contentsline {chapter}{目錄}{iv}{section*.4}%
+\contentsline {chapter}{\numberline { \CJKnumber {1} 、}緒論}{1}{chapter.1}%
+\contentsline {chapter}{\numberline { \CJKnumber {2} 、}相關研究}{2}{chapter.2}%
+\contentsline {chapter}{\numberline { \CJKnumber {3} 、}研究方法}{3}{chapter.3}%
+\contentsline {chapter}{\numberline { \CJKnumber {4} 、}研究結果}{4}{chapter.4}%
+\contentsline {chapter}{\numberline { \CJKnumber {5} 、}結論}{5}{chapter.5}%
+\contentsline {chapter}{\numberline { \CJKnumber {6} 、}參考文獻}{6}{chapter.6}%

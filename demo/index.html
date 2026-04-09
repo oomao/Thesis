@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>論文輔助系統 - 首頁</title>
+    <style>
+        body {
+            font-size: 16px;
+            font-family: 'PingFang TC', 'Heiti TC', '微軟正黑體', sans-serif;
+            text-align: center;
+            background-color: white;
+        }
+        .nav-item { margin: 0 5px; }
+        .nav-link img { margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <!-- 導覽列 -->
+    <nav class="navbar navbar-expand-sm bg-light navbar-light shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/study.png" alt="Logo" style="width:50px;" class="rounded">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="search.html">
+                            <img src="images/magnifier.png" style="width:20px;" class="rounded"><br>論文推薦功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="ai_detector.html">
+                            <img src="images/ai.png" style="width:20px;" class="rounded"><br>AI偵測功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="test.html">
+                            <img src="images/left.png" style="width:20px;" class="rounded"><br>論文排版輔助
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="upload.html">
+                            <img src="images/scores.png" style="width:20px;" class="rounded"><br>論文評分功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="chat.html">
+                            <img src="images/robot.png" style="width:20px;" class="rounded"><br>論文聊天機器人
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="community.html">
+                            <img src="images/group.png" style="width:20px;" class="rounded"><br>社群
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown">
+                            Demo User
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">好友</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">登出 (展示用)</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 內容區塊 -->
+    <div class="container mt-5">
+        <h1 class="mb-4">主畫面</h1>
+        
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">歡迎來到論文輔助系統 (展示版)</h4>
+            <p>這是一個 Github Pages 線上展示版本，後端 AI 運算及資料庫連線會以模擬方式展示介面與流程。</p>
+            <hr>
+            <p class="mb-0">請從上方選單選擇功能來體驗。</p>
+        </div>
+
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-8">
+                <div class="d-grid gap-3">
+                    <button class="btn btn-primary btn-lg" onclick="location.href='ai_detector.html'">AI 偵測功能</button>
+                    <button class="btn btn-primary btn-lg" onclick="location.href='upload.html'">論文評分功能</button>
+                    <button class="btn btn-primary btn-lg" onclick="location.href='search.html'">論文推薦功能</button>
+                    <button class="btn btn-primary btn-lg" onclick="location.href='test.html'">論文排版功能</button>
+                    <button class="btn btn-primary btn-lg" onclick="location.href='chat.html'">AI 聊天機器人</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<?php
+require 'includes/init.php';
+
+if(isset($_SESSION['user_id']) && isset($_SESSION['email'])){
+    $user_data = $user_obj->find_user_by_id($_SESSION['user_id']);
+    if($user_data ===  false){
+        header('Location: logout.php');
+        exit;
+    }
+}
+else{
+    header('Location: logout.php');
+    exit;
+}
+// TOTAL REQUESTS
+$get_req_num = $frnd_obj->request_notification($_SESSION['user_id'], false);
+// TOTAL FRIENDS
+$get_frnd_num = $frnd_obj->get_all_friends($_SESSION['user_id'], false);
+$get_all_req_sender = $frnd_obj->request_notification($_SESSION['user_id'], true);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><?php echo  $user_data->username;?></title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+</head>
+<body>
+    <div class="profile_container">
+    <h2>社群系統</h2>
+        <div class="inner_profile">
+            <div class="img">
+                <img src="profile_images/<?php echo $user_data->user_image; ?>" alt="Profile image">
+            </div>
+            <h1><?php echo  $user_data->username;?></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="profile.php" rel="noopener noreferrer">首頁</a></li>
+                <li><a href="notifications.php" rel="noopener noreferrer" class="active">好友邀請<span class="badge <?php
+                if($get_req_num > 0){
+                    echo 'redBadge';
+                }
+                ?>"><?php echo $get_req_num;?></span></a></li>
+                <li><a href="friends.php" rel="noopener noreferrer">好友<span class="badge"><?php echo $get_frnd_num;?></span></a></li>
+                <li><a href="chatroom.php" rel="noopener noreferrer">訊息</a></li>
+                <li><a href="logout.php" rel="noopener noreferrer">登出</a></li>
+            </ul>
+        </nav>
+        <div class="all_users">
+            <h3>所有交友邀請</h3>
+            <div class="usersWrapper">
+                <?php
+                if($get_req_num > 0){
+                    foreach($get_all_req_sender as $row){
+                        echo '<div class="user_box">
+                                <div class="user_img"><img src="profile_images/'.$row->user_image.'" alt="Profile image"></div>
+                                <div class="user_info"><span>'.$row->username.'</span>
+                                <span><a href="user_profile.php?id='.$row->sender.'" class="see_profileBtn">查看個人檔案</a></div>
+                            </div>';
+                    }
+                }
+                else{
+                    echo '<h4>您沒有交友邀請！</h4>';
+                }
+                ?>
+            </div>
+        </div>
+       
+    </div>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>論文排版輔助 - 論文輔助系統</title>
+    <style>
+        body {
+            font-size: 16px;
+            font-family: 'PingFang TC', 'Heiti TC', '微軟正黑體', sans-serif;
+            text-align: center;
+            background-color: white;
+        }
+        .nav-item { margin: 0 5px; }
+        .nav-link img { margin-bottom: 5px; }
+        
+        .form-step { display: none; }
+        .form-step.active { display: block; }
+        .form-control, .form-select { max-width: 500px; margin: 0 auto; text-align: left; }
+        label { display: block; max-width: 500px; margin: 0 auto 5px auto; text-align: left; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <!-- 導覽列 -->
+    <nav class="navbar navbar-expand-sm bg-light navbar-light shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/study.png" alt="Logo" style="width:50px;" class="rounded">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="search.html">
+                            <img src="images/magnifier.png" style="width:20px;" class="rounded"><br>論文推薦功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="ai_detector.html">
+                            <img src="images/ai.png" style="width:20px;" class="rounded"><br>AI偵測功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="test.html">
+                            <img src="images/left.png" style="width:20px;" class="rounded"><br>論文排版輔助
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="upload.html">
+                            <img src="images/scores.png" style="width:20px;" class="rounded"><br>論文評分功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="chat.html">
+                            <img src="images/robot.png" style="width:20px;" class="rounded"><br>論文聊天機器人
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="community.html">
+                            <img src="images/group.png" style="width:20px;" class="rounded"><br>社群
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown">
+                            Demo User
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">好友</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">登出 (展示用)</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>論文排版輔助系統</h2>
+        <p>跟隨步驟輸入論文資訊，系統將為您產生符合規範的 PDF。（展示版）</p>
+
+        <div class="card mt-4 mx-auto" style="max-width: 800px;">
+            <div class="card-body py-5">
+                <form id="multiStepForm" onsubmit="event.preventDefault(); simulateGeneratePdf();">
+                    
+                    <div class="form-step active" id="step0">
+                        <h4 class="mb-4">步驟 1: 基本資料</h4>
+                        <label for="dept">系所名稱 (Department):</label>
+                        <input class="form-control mb-3" type="text" id="dept" value="資訊工程學系" required>
+                        <label for="degree">學位 (Degree):</label>
+                        <select class="form-select mb-3" id="degree"><option>碩士</option><option>博士</option><option>學士</option></select>
+                        <label for="title">論文標題 (Title):</label>
+                        <input class="form-control mb-3" type="text" id="title" value="基於機器學習之論文輔助系統研究" required>
+                        <label for="author">作者姓名 (Author):</label>
+                        <input class="form-control mb-3" type="text" id="author" value="王大明" required>
+                    </div>
+                    
+                    <div class="form-step" id="step1">
+                        <h4 class="mb-4">步驟 2: 指導人員與日期</h4>
+                        <label for="mprof">指導教授 (Main Professor):</label>
+                        <input class="form-control mb-3" type="text" id="mprof" value="李教授" required>
+                        <label for="degreedate">口試日期 (Degree Date):</label>
+                        <input class="form-control mb-3" type="text" id="degreedate" value="2026年6月" required>
+                    </div>
+
+                    <div class="form-step" id="step2">
+                        <h4 class="mb-4">步驟 3: 摘要與內容</h4>
+                        <label for="abstract1">中文摘要 (Abstract - Chinese):</label>
+                        <textarea class="form-control mb-3" id="abstract1" rows="5" required>本篇論文提出一個論文輔助寫作服務...</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-4 gap-3">
+                        <button type="button" class="btn btn-outline-secondary px-4 fw-bold" id="prevBtn" onclick="changeStep(-1)" disabled>上一頁</button>
+                        <button type="button" class="btn btn-primary px-4 fw-bold" id="nextBtn" onclick="changeStep(1)">下一頁</button>
+                        <button type="submit" class="btn btn-success px-4 fw-bold" id="submitBtn" style="display: none;">產生 PDF</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="successMsg" class="alert alert-success mt-4 mx-auto" style="display: none; max-width: 800px;">
+            <h4>🎉 PDF 生成成功！</h4>
+            <p>（此為模擬展示，暫不提供下載真實檔案）</p>
+            <button class="btn btn-outline-success mt-2" onclick="location.reload()">重新建立</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const totalSteps = 3;
+
+        function changeStep(direction) {
+            document.getElementById('step' + currentStep).classList.remove('active');
+            currentStep += direction;
+            
+            if (currentStep < 0) currentStep = 0;
+            if (currentStep >= totalSteps) currentStep = totalSteps - 1;
+
+            document.getElementById('step' + currentStep).classList.add('active');
+
+            document.getElementById('prevBtn').disabled = (currentStep === 0);
+            
+            if (currentStep === totalSteps - 1) {
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('submitBtn').style.display = 'inline-block';
+            } else {
+                document.getElementById('nextBtn').style.display = 'inline-block';
+                document.getElementById('submitBtn').style.display = 'none';
+            }
+        }
+
+        function simulateGeneratePdf() {
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> 編譯 LaTeX 中...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                document.getElementById('multiStepForm').style.display = 'none';
+                document.getElementById('successMsg').style.display = 'block';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

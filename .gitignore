@@ -1,0 +1,40 @@
+# Large model files
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+ai_detection.zip
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+venv/
+.env
+
+# Node
+node_modules/
+package-lock.json
+
+# macOS
+__MACOSX/
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Uploads
+uploads/
+
+# Output
+latex_templete/output*/

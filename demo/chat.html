@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>AI 聊天機器人 - 論文輔助系統</title>
+    <style>
+        body {
+            font-size: 16px;
+            font-family: 'PingFang TC', 'Heiti TC', '微軟正黑體', sans-serif;
+            background-color: white;
+        }
+        .nav-item { margin: 0 5px; }
+        .nav-link img { margin-bottom: 5px; }
+        .chat-container { border: 1px solid #dee2e6; border-radius: 10px; height: 60vh; display: flex; flex-direction: column; background-color: #f8f9fa; }
+        .chat-box { flex: 1; overflow-y: auto; padding: 20px; }
+        .chat-message { margin-bottom: 15px; max-width: 75%; }
+        .message-user { background-color: #0d6efd; color: white; padding: 10px 15px; border-radius: 15px 15px 0 15px; margin-left: auto; }
+        .message-bot { background-color: white; color: #212529; border: 1px solid #dee2e6; padding: 10px 15px; border-radius: 15px 15px 15px 0; margin-right: auto; }
+        .chat-input { border-top: 1px solid #dee2e6; padding: 15px; background-color: white; border-radius: 0 0 10px 10px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-light navbar-light shadow-sm text-center">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/study.png" alt="Logo" style="width:50px;" class="rounded">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item fw-bold text-center">
+                        <a class="nav-link" href="search.html">
+                            <img src="images/magnifier.png" style="width:20px;" class="rounded"><br>論文推薦功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold text-center">
+                        <a class="nav-link" href="ai_detector.html">
+                            <img src="images/ai.png" style="width:20px;" class="rounded"><br>AI偵測功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold text-center">
+                        <a class="nav-link" href="test.html">
+                            <img src="images/left.png" style="width:20px;" class="rounded"><br>論文排版輔助
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold text-center">
+                        <a class="nav-link" href="upload.html">
+                            <img src="images/scores.png" style="width:20px;" class="rounded"><br>論文評分功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold text-center">
+                        <a class="nav-link" href="chat.html">
+                            <img src="images/robot.png" style="width:20px;" class="rounded"><br>論文聊天機器人
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold text-center">
+                        <a class="nav-link" href="community.html">
+                            <img src="images/group.png" style="width:20px;" class="rounded"><br>社群
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">學術輔助聊天機器人</h2>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="chat-container shadow-sm">
+                    <div class="chat-box" id="chatBox">
+                        <div class="chat-message message-bot shadow-sm">
+                            哈囉！我是論文輔助系統的 AI 機器人。您可以問我關於論文寫作格式、英文文法，或是如何使用本系統的相關問題！（展示版會回覆預設訊息）
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input">
+                        <form id="chatForm" class="d-flex gap-2" onsubmit="event.preventDefault(); sendMessage();">
+                            <input type="text" class="form-control" id="userInput" placeholder="輸入您的問題..." autocomplete="off">
+                            <button type="submit" class="btn btn-primary px-4 fw-bold">發送</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            const chatBox = document.getElementById('chatBox');
+            
+            if(!message) return;
+
+            // user msg
+            chatBox.innerHTML += `<div class="chat-message message-user shadow-sm">${message}</div>`;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // bot loading
+            const loadingId = 'loading-' + Date.now();
+            chatBox.innerHTML += `<div id="${loadingId}" class="chat-message message-bot shadow-sm">...</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                document.getElementById(loadingId).remove();
+                let reply = "這是一個很好的問題！在撰寫學術論文時，建議您...";
+                
+                if(message.includes("格式") || message.includes("排版")) {
+                    reply = "如果您需要排版輔助，可以點擊上方的「論文排版輔助」功能，輸入標題、摘要等資訊，系統就會自動幫您打包成標準 LaTeX 格式的 PDF 喔！";
+                } else if(message.includes("抄襲") || message.includes("AI")) {
+                    reply = "您可以將可疑的段落放入「AI偵測功能」中，我們的自訓練模型會為您分析每一句話是由 AI 生成的機率。";
+                }
+                
+                chatBox.innerHTML += `<div class="chat-message message-bot shadow-sm">${reply}<br><br><span class="text-muted small">（模擬回覆）</span></div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

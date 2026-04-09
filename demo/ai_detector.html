@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>AI 偵測功能 - 論文輔助系統</title>
+    <style>
+        body {
+            font-size: 16px;
+            font-family: 'PingFang TC', 'Heiti TC', '微軟正黑體', sans-serif;
+            text-align: center;
+            background-color: white;
+        }
+        .nav-item { margin: 0 5px; }
+        .nav-link img { margin-bottom: 5px; }
+        .ai-high { background-color: #ffcccc; color: #cc0000; padding: 2px; border-radius: 3px; font-weight: bold; }
+        .ai-low { background-color: #e6ffe6; color: #006600; padding: 2px; border-radius: 3px; }
+        #resultsArea { display: none; }
+    </style>
+</head>
+<body>
+    <!-- 導覽列 -->
+    <nav class="navbar navbar-expand-sm bg-light navbar-light shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="images/study.png" alt="Logo" style="width:50px;" class="rounded">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="search.html">
+                            <img src="images/magnifier.png" style="width:20px;" class="rounded"><br>論文推薦功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="ai_detector.html">
+                            <img src="images/ai.png" style="width:20px;" class="rounded"><br>AI偵測功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="test.html">
+                            <img src="images/left.png" style="width:20px;" class="rounded"><br>論文排版輔助
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="upload.html">
+                            <img src="images/scores.png" style="width:20px;" class="rounded"><br>論文評分功能
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="chat.html">
+                            <img src="images/robot.png" style="width:20px;" class="rounded"><br>論文聊天機器人
+                        </a>
+                    </li>
+                    <li class="nav-item fw-bold">
+                        <a class="nav-link" href="community.html">
+                            <img src="images/group.png" style="width:20px;" class="rounded"><br>社群
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown">
+                            Demo User
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">好友</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">登出 (展示用)</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 內容區塊 -->
+    <div class="container mt-5">
+        <h2>AI 文章偵測</h2>
+        <p>將文章段落貼入下方，模型將偵測哪些句子可能是由 AI (例如 ChatGPT) 所撰寫。（展示版模擬特定標註）</p>
+
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <textarea class="form-control mb-3 text-start" id="aiInput" rows="8" placeholder="在此貼上文章內容...">這項研究探討了機器學習在現代醫療診斷中的應用。有鑑於此，這些技術展現出了前所未有的精準度和效率，這不僅象徵著醫學界的突破，更可能為全人類的未來福祉帶來深遠的影響。傳統診斷方法常面臨資源匱乏的挑戰。我們提出了新的評估架構來解決上述問題。</textarea>
+                
+                <button class="btn btn-danger px-5" onclick="simulateDetect()" id="detectBtn">開始偵測</button>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-5" id="resultsArea">
+            <div class="col-md-8 text-start">
+                <div class="card border-danger mb-3">
+                    <div class="card-header bg-danger text-white fw-bold">偵測結果 (AI 生成率高部分以紅底標示)</div>
+                    <div class="card-body" id="resultText" style="line-height: 2;">
+                        <!-- JS 模擬結果會塞到這裡 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模擬指令碼 -->
+    <script>
+        function simulateDetect() {
+            const input = document.getElementById('aiInput').value;
+            const btn = document.getElementById('detectBtn');
+            const resultArea = document.getElementById('resultsArea');
+            const resultText = document.getElementById('resultText');
+
+            if (!input.trim()) {
+                alert('請輸入要偵測的文字');
+                return;
+            }
+
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> 偵測中...';
+            btn.disabled = true;
+            resultArea.style.display = 'none';
+
+            setTimeout(() => {
+                btn.innerHTML = '開始偵測';
+                btn.disabled = false;
+                
+                // 簡單的情境模擬：把 "有鑑於此..." 這句當成 AI 句子突顯
+                let outputHtml = input
+                    .replace(/有鑑於此.*?影響。/, '<span class="ai-high" title="AI 機率: 0.94">$& (AI機率 94%)</span>')
+                    .replace(/這項研究.*?應用。/, '<span class="ai-low">$&</span>')
+                    .replace(/傳統診斷.*?挑戰。/, '<span class="ai-low">$&</span>')
+                    .replace(/我們提出.*?問題。/, '<span class="ai-low">$&</span>');
+
+                // 如果用戶輸入別的字，就隨機標點紅色
+                if(input.indexOf('有鑑於此') === -1) {
+                    let sentences = input.split(/([。！？])/);
+                    outputHtml = sentences.map((s, i) => {
+                        if (s.trim() && s.length > 5 && i % 4 === 0) {
+                            return `<span class="ai-high" title="AI 機率: 0.88">${s}</span>`;
+                        } else if (s.trim() && s.length > 5) {
+                            return `<span class="ai-low">${s}</span>`;
+                        }
+                        return s;
+                    }).join('');
+                }
+
+                resultText.innerHTML = outputHtml;
+                resultArea.style.display = 'block';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

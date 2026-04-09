@@ -1,0 +1,6 @@
+
+套用p208p2002/llama-keyword-generator-zh2zh-120M模型，輸入一段文字會返回關鍵字
+
+使用方法:
+	python -m http.server 8000     
+	python search_back.py 

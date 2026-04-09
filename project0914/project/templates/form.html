@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <script>
+        let referenceCount = 2;
+    
+        function addReference() {
+            const referencesDiv = document.getElementById('references');
+            const referenceDiv = document.createElement('div');
+            referenceDiv.id = `reference_${referenceCount}`;
+            referenceDiv.innerHTML = `
+                <h4>參考文獻 ${referenceCount}</h4>
+                <label for="references[${referenceCount}][language]">語言類型（英文/中文）:</label>
+                <input type="text" name="references[${referenceCount}][language]"><br>
+    
+                <label for="references[${referenceCount}][author]">作者:</label>
+                <input type="text" name="references[${referenceCount}][author]"><br>
+    
+                <label for="references[${referenceCount}][year]">出版年份:</label>
+                <input type="text" name="references[${referenceCount}][year]"><br>
+    
+                <label for="references[${referenceCount}][title]">書名或文章標題:</label>
+                <input type="text" name="references[${referenceCount}][title]"><br>
+    
+                <label for="references[${referenceCount}][city]">出版城市:</label>
+                <input type="text" name="references[${referenceCount}][city]"><br>
+    
+                <label for="references[${referenceCount}][publisher]">出版商:</label>
+                <input type="text" name="references[${referenceCount}][publisher]"><br>
+    
+                <label for="references[${referenceCount}][url]">URL（如果有的話）:</label>
+                <input type="text" name="references[${referenceCount}][url]"><br><br>
+            `;
+            referencesDiv.appendChild(referenceDiv);
+            referenceCount++;
+        }
+    
+        function filterEmptyReferences(event) {
+            const referencesDiv = document.getElementById('references');
+            const references = referencesDiv.querySelectorAll('div[id^="reference_"]');
+            let newReferenceIndex = 1; // 用來重新排序有效的參考文獻
+    
+            references.forEach(reference => {
+                const inputs = reference.querySelectorAll('input');
+                let allEmpty = true;
+    
+                // 檢查這筆參考文獻的所有欄位
+                inputs.forEach(input => {
+                    if (input.value.trim() !== "") {
+                        allEmpty = false;
+                    }
+                });
+    
+                // 如果這筆參考文獻有內容，重新編號
+                if (!allEmpty) {
+                    const h4 = reference.querySelector('h4');
+                    h4.textContent = `參考文獻 ${newReferenceIndex}`; // 更新標題
+    
+                    inputs.forEach(input => {
+                        // 更新 name 屬性以反映新的索引
+                        const nameAttr = input.name.replace(/\[\d+\]/, `[${newReferenceIndex}]`);
+                        input.name = nameAttr;
+                    });
+    
+                    newReferenceIndex++; // 更新到下一個有效索引
+                } else {
+                    // 如果所有欄位都為空，則移除該筆參考文獻
+                    reference.remove();
+                }
+            });
+    
+            return true; // 繼續提交表單
+        }
+    </script>
+    
+</head>
+<body>
+    <h1>Form Page</h1>
+    <form action="/generate_pdf" method="POST" onsubmit="return filterEmptyReferences(event)">
+        <label for="school">School:</label>
+        <input type="text" id="school" name="school"><br>
+
+        <label for="dept">Department:</label>
+        <input type="text" id="dept" name="dept"><br>
+
+        <label for="degree">Degree:</label>
+        <input type="text" id="degree" name="degree"><br>
+
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title"><br>
+
+        <label for="subtitle">Subtitle:</label>
+        <input type="text" id="subtitle" name="subtitle"><br>
+
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author"><br>
+
+        <label for="mprof">Main Professor:</label>
+        <input type="text" id="mprof" name="mprof"><br>
+
+        <label for="sprofi">Secondary Professor I:</label>
+        <input type="text" id="sprofi" name="sprofi"><br>
+
+        <label for="sprofii">Secondary Professor II:</label>
+        <input type="text" id="sprofii" name="sprofii"><br>
+
+        <label for="degreedate">Degree Date:</label>
+        <input type="text" id="degreedate" name="degreedate"><br>
+
+        <label for="copyyear">Copy Year:</label>
+        <input type="text" id="copyyear" name="copyyear"><br>
+
+        <label for="abstract1">Abstract (Chinese):</label>
+        <textarea id="abstract1" name="abstract1"></textarea><br>
+
+        <label for="abstract2">Abstract (English):</label>
+        <textarea id="abstract2" name="abstract2"></textarea><br>
+
+        <label for="acknowledge">Acknowledgement:</label>
+        <textarea id="acknowledge" name="acknowledge"></textarea><br>
+
+        <label for="introduction">Introduction:</label>
+        <textarea id="introduction" name="introduction"></textarea><br>
+
+        <label for="relateWork">Related Work:</label>
+        <textarea id="relateWork" name="relateWork"></textarea><br>
+
+        <label for="approach">Approach:</label>
+        <textarea id="approach" name="approach"></textarea><br>
+        
+        <label for="result">Result:</label>
+        <textarea id="result" name="result"></textarea><br>
+
+        <label for="conclusion">Conclusion:</label>
+        <textarea id="conclusion" name="conclusion"></textarea><br>
+
+        <div id="references">
+            <h3>參考文獻</h3>
+            <!-- 初始添加一筆參考文獻 -->
+            <div id="reference_1">
+                <h4>參考文獻 1</h4>
+                <label for="references[1][language]">語言類型（英文/中文）:</label>
+                <input type="text" name="references[1][language]"><br>
+
+                <label for="references[1][author]">作者:</label>
+                <input type="text" name="references[1][author]"><br>
+
+                <label for="references[1][year]">出版年份:</label>
+                <input type="text" name="references[1][year]"><br>
+
+                <label for="references[1][title]">書名或文章標題:</label>
+                <input type="text" name="references[1][title]"><br>
+
+                <label for="references[1][city]">出版城市:</label>
+                <input type="text" name="references[1][city]"><br>
+
+                <label for="references[1][publisher]">出版商:</label>
+                <input type="text" name="references[1][publisher]"><br>
+
+                <label for="references[1][url]">URL（如果有的話）:</label>
+                <input type="text" name="references[1][url]"><br><br>
+            </div>
+        </div>
+
+        <button type="button" onclick="addReference()">添加另一筆參考文獻</button><br><br>
+
+
+        <button type="submit">Generate PDF</button>
+    </form>
+</body>
+</html>
