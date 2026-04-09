@@ -1,4 +1,4 @@
-# 📝 論文輔助系統 — Thesis Assistant System
+# 📝 THESIS - Tool for Holistic Editing and Study Information System
 
 > 一個整合 AI 技術的論文寫作輔助平台，提供論文推薦、AI 偵測、排版輔助、評分分析、聊天機器人及學術社群等六大功能。
 
