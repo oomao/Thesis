@@ -4,7 +4,7 @@
 
 ## 🌐 Live Demo
 
-👉 **[Live Demo 線上展示](https://oomao.github.io/Thesis/demo/)**
+👉 **[Live Demo ](https://oomao.github.io/Thesis/demo/)**
 
 ## 📺 系統介紹影片
 
